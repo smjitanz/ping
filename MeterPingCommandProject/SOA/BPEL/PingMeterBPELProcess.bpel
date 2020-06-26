@@ -97,7 +97,17 @@
         <from>concat(ora:getPreference("MeterPingUrl"),$inputVariable.payload/client:input)</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$MeterPingUrl</to>
       </copy>
+      <copy>
+        <from>"Successful"</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:flowId</to>
+      </copy>
     </assign>
+    <reply name="replyOutput" partnerLink="pingmeterbpelprocess_client" portType="client:PingMeterBPELProcess"
+           operation="process" variable="outputVariable"/>
     <invoke name="InvokeMeterPing" partnerLink="MeterPingRestReference"
             portType="ns1:MeterPingRestReference_ptt" operation="PingMeter"
             inputVariable="InvokeMeterPing_InputVariable" outputVariable="InvokeMeterPing_OutputVariable"
@@ -106,13 +116,6 @@
         <bpelx:toProperty name="rest.binding.requestURI" variable="MeterPingUrl"/>
       </bpelx:toProperties>
     </invoke>
-    <assign name="AssignOutput">
-      <copy>
-        <from>$InvokeMeterPing_OutputVariable.reply/ns2:state</from>
-        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
-      </copy>
-    </assign>
     <!-- Generate reply to synchronous request -->
-    <reply name="replyOutput" partnerLink="pingmeterbpelprocess_client" portType="client:PingMeterBPELProcess" operation="process" variable="outputVariable"/>
   </sequence>
 </process>
