@@ -1,0 +1,25 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<application xmlns:soa="http://www.oracle.com/soa/rest" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://wadl.dev.java.net/2009/02">
+   <doc title="MeterPingRestReference">RestReference</doc>
+   <grammars>
+      <schema xmlns="http://www.w3.org/2001/XMLSchema" targetNamespace="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/MeterPingRestReference" elementFormDefault="qualified">
+            <element name="empty">
+                <complexType/>
+            </element>
+        </schema>
+      <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:import namespace="http://TargetNamespace.com/MeterPingRestReference_PingMeter_response" schemaLocation="../Schemas/MeterPingResponse.xsd"/>
+        </xsd:schema>
+   </grammars>
+   <resources>
+      <resource path="/ws/meterPing">
+         <method name="GET" soa:wsdlOperation="PingMeter">
+            <request/>
+            <response status="200">
+               <representation mediaType="application/json" element="cns:MeterPing" xmlns:cns="http://TargetNamespace.com/MeterPingRestReference_PingMeter_response"/>
+            </response>
+            <response status="404" soa:wsdlFaultName="FaultBinding"/>
+         </method>
+      </resource>
+   </resources>
+</application>

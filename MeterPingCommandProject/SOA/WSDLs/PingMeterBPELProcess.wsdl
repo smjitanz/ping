@@ -1,0 +1,32 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="PingMeterBPELProcess"
+     targetNamespace="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/PingMeterBPELProcess"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+     xmlns:client="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/PingMeterBPELProcess"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:ns1="http://schemas.oracle.com/bpel/extension"
+    >
+    <plnk:partnerLinkType name="PingMeterBPELProcess">
+        <plnk:role name="PingMeterBPELProcessProvider" portType="client:PingMeterBPELProcess"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://schemas.oracle.com/bpel/extension" location="RuntimeFault.wsdl"/>
+    <wsdl:types>
+        <schema xmlns="http://www.w3.org/2001/XMLSchema">
+            <import namespace="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/PingMeterBPELProcess"
+                 schemaLocation="../Schemas/PingMeterBPELProcess.xsd"/>
+        </schema>
+    </wsdl:types>
+    <wsdl:message name="PingMeterBPELProcessRequestMessage">
+        <wsdl:part name="payload" element="client:process"/>
+    </wsdl:message>
+    <wsdl:message name="PingMeterBPELProcessResponseMessage">
+        <wsdl:part name="payload" element="client:processResponse"/>
+    </wsdl:message>
+    <wsdl:portType name="PingMeterBPELProcess">
+        <wsdl:operation name="process">
+            <wsdl:input message="client:PingMeterBPELProcessRequestMessage"/>
+            <wsdl:output message="client:PingMeterBPELProcessResponseMessage"/>
+        </wsdl:operation>
+    </wsdl:portType>
+</wsdl:definitions>
