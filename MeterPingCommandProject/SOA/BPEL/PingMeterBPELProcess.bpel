@@ -75,6 +75,10 @@
             <from>ora:getFaultAsString()</from>
             <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:result</to>
           </copy>
+          <copy>
+            <from>ora:getFlowId()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:flowId</to>
+          </copy>
         </assign>
         <reply name="ReplyError" partnerLink="pingmeterbpelprocess_client" variable="ReplyError_OutputVariable"
                portType="client:PingMeterBPELProcess" operation="process"/>
