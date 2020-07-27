@@ -1,0 +1,463 @@
+<?xml version = '1.0' encoding = 'UTF-8'?>
+<!--root element wsdl:definitions defines set of related services-->
+<wsdl:definitions
+     name="CYANPingResponse"
+     targetNamespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+     xmlns:xai="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+     xmlns:ns1="http://oracle.com/CYANPingResponse.xsd"
+     xmlns:ns2="http://oracle.com/CYANPingResponse.xsd"
+     xmlns:ouaf="http://ouaf.oracle.com/"
+     xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <wsdl:types>
+        <xsd:schema targetNamespace="http://ouaf.oracle.com/" elementFormDefault="unqualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+            <xsd:element name="Fault">
+                <xsd:complexType>
+                    <xsd:all>
+                        <xsd:element name="ResponseStatus" type="xsd:string"/>
+                        <xsd:element name="ResponseCode" type="xsd:int"/>
+                        <xsd:element name="ResponseText" type="xsd:string"/>
+                        <xsd:element name="ResponseData" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:attribute name="parm1" type="xsd:string"/>
+                                <xsd:attribute name="parm2" type="xsd:string"/>
+                                <xsd:attribute name="parm3" type="xsd:string"/>
+                                <xsd:attribute name="parm4" type="xsd:string"/>
+                                <xsd:attribute name="parm5" type="xsd:string"/>
+                                <xsd:attribute name="parm6" type="xsd:string"/>
+                                <xsd:attribute name="parm7" type="xsd:string"/>
+                                <xsd:attribute name="parm8" type="xsd:string"/>
+                                <xsd:attribute name="parm9" type="xsd:string"/>
+                                <xsd:attribute name="text" type="xsd:string"/>
+                                <xsd:attribute name="category" type="xsd:string"/>
+                                <xsd:attribute name="numParm" type="xsd:int"/>
+                                <xsd:attribute name="number" type="xsd:int"/>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="ServerMessage" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:all>
+                                    <xsd:element name="Category" type="xsd:string"/>
+                                    <xsd:element name="Number" type="xsd:string"/>
+                                    <xsd:element name="CallSequence" type="xsd:string"/>
+                                    <xsd:element name="ProgramName" type="xsd:string"/>
+                                    <xsd:element name="Text" type="xsd:string"/>
+                                    <xsd:element name="Description" type="xsd:string"/>
+                                    <xsd:element name="Table" type="xsd:string"/>
+                                    <xsd:element name="Field" type="xsd:string"/>
+                                </xsd:all>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:all>
+                </xsd:complexType>
+            </xsd:element>
+            <xsd:simpleType name="money">
+                <xsd:restriction base="xsd:decimal"/>
+            </xsd:simpleType>
+            <xsd:simpleType name="listAction">
+                <xsd:restriction base="xsd:token">
+                    <xsd:enumeration value="delete"/>
+                    <xsd:enumeration value="add"/>
+                    <xsd:enumeration value="update"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:schema>
+        <xsd:schema targetNamespace="http://oracle.com/CYANPingResponse.xsd" elementFormDefault="qualified"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+            <xsd:import namespace="http://ouaf.oracle.com/"/>
+            <xsd:element name="CYANPingResponse">
+                <xsd:complexType>
+                    <xsd:sequence>
+                        <xsd:element name="communicationId" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="14"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="communicationType" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="30"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="bo">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="30"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="boStatus" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="12"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="statusReason" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="30"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="sender" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="30"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="statusDateTime" nillable="true" type="xsd:dateTime" minOccurs="0"/>
+                        <xsd:element name="creationDateTime" nillable="true" type="xsd:dateTime" minOccurs="0"/>
+                        <xsd:element name="version" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:decimal">
+                                    <xsd:minExclusive value="-99999"/>
+                                    <xsd:maxExclusive value="99999"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="deviceId" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="12"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="amiDeviceIdentifierNumber" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="30"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="initiatingOutCommunication" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="60"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="retryDetails" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="retryDateTime" nillable="true" type="xsd:dateTime"
+                                         minOccurs="0"/>
+                                    <xsd:element name="numberOfRetries" minOccurs="0" default="0">
+                                        <xsd:simpleType>
+                                            <xsd:restriction base="xsd:decimal">
+                                                <xsd:minInclusive value="0"/>
+                                                <xsd:maxExclusive value="999"/>
+                                            </xsd:restriction>
+                                        </xsd:simpleType>
+                                    </xsd:element>
+                                    <xsd:element name="currentErrorState" minOccurs="0">
+                                        <xsd:simpleType>
+                                            <xsd:restriction base="xsd:string">
+                                                <xsd:maxLength value="12"/>
+                                            </xsd:restriction>
+                                        </xsd:simpleType>
+                                    </xsd:element>
+                                    <xsd:element name="isToDoEntrySuppressed" nillable="true" type="xsd:boolean"
+                                         minOccurs="0" default="false"/>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                        <xsd:element name="transactionId" minOccurs="0">
+                            <xsd:simpleType>
+                                <xsd:restriction base="xsd:string">
+                                    <xsd:maxLength value="30"/>
+                                </xsd:restriction>
+                            </xsd:simpleType>
+                        </xsd:element>
+                        <xsd:element name="responseDetail" minOccurs="0">
+                            <xsd:complexType>
+                                <xsd:sequence>
+                                    <xsd:element name="responseEnvelope" minOccurs="0">
+                                        <xsd:complexType>
+                                            <xsd:sequence>
+                                                <xsd:element name="pingResults" minOccurs="0">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="deviceName" type="xsd:string"
+                                                                 minOccurs="0"/>
+                                                            <xsd:element name="state" type="xsd:string"
+                                                                 minOccurs="0"/>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                                <xsd:element name="utilityDeviceID" type="xsd:string"
+                                                     minOccurs="0"/>
+                                                <xsd:element name="transactionID" type="xsd:string"
+                                                     minOccurs="0"/>
+                                                <xsd:element name="instanceID" type="xsd:string" minOccurs="0"/>
+                                                <xsd:element name="externalSenderID" type="xsd:string"
+                                                     minOccurs="0"/>
+                                                <xsd:element name="fault" minOccurs="0">
+                                                    <xsd:complexType>
+                                                        <xsd:sequence>
+                                                            <xsd:element name="faultCode" minOccurs="0">
+                                                                <xsd:simpleType>
+                                                                    <xsd:restriction base="xsd:string">
+                                                                        <xsd:maxLength value="14"/>
+                                                                    </xsd:restriction>
+                                                                </xsd:simpleType>
+                                                            </xsd:element>
+                                                            <xsd:element name="faultString" minOccurs="0">
+                                                                <xsd:simpleType>
+                                                                    <xsd:restriction base="xsd:string">
+                                                                        <xsd:maxLength value="100"/>
+                                                                    </xsd:restriction>
+                                                                </xsd:simpleType>
+                                                            </xsd:element>
+                                                            <xsd:element name="faultActor" minOccurs="0">
+                                                                <xsd:simpleType>
+                                                                    <xsd:restriction base="xsd:string">
+                                                                        <xsd:maxLength value="100"/>
+                                                                    </xsd:restriction>
+                                                                </xsd:simpleType>
+                                                            </xsd:element>
+                                                            <xsd:element name="detail" minOccurs="0">
+                                                                <xsd:complexType>
+                                                                    <xsd:sequence>
+                                                                        <xsd:element name="code" minOccurs="0"
+                                                                             maxOccurs="unbounded">
+                                                                            <xsd:complexType>
+                                                                                <xsd:sequence>
+                                                                                    <xsd:element name="value"
+                                                                                         minOccurs="0">
+                                                                                        <xsd:simpleType>
+                                                                                            <xsd:restriction
+                                                                                                 base="xsd:decimal">
+                                                                                                <xsd:minExclusive
+                                                                                                     value="-99999999999.9999999"/>
+                                                                                                <xsd:maxExclusive
+                                                                                                     value="99999999999.9999999"/>
+                                                                                            </xsd:restriction>
+                                                                                        </xsd:simpleType>
+                                                                                    </xsd:element>
+                                                                                    <xsd:element
+                                                                                         name="subCode"
+                                                                                         minOccurs="0"
+                                                                                         maxOccurs="unbounded">
+                                                                                        <xsd:complexType>
+                                                                                            <xsd:sequence>
+                                                                                                <xsd:element
+                                                                                                     name="value"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:decimal">
+                                                                                                            <xsd:minExclusive
+                                                                                                                 value="-99999999999.9999999"/>
+                                                                                                            <xsd:maxExclusive
+                                                                                                                 value="99999999999.9999999"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                            </xsd:sequence>
+                                                                                            <xsd:attribute
+                                                                                                 name="action"
+                                                                                                 type="ouaf:listAction"/>
+                                                                                        </xsd:complexType>
+                                                                                    </xsd:element>
+                                                                                </xsd:sequence>
+                                                                                <xsd:attribute name="action"
+                                                                                     type="ouaf:listAction"/>
+                                                                            </xsd:complexType>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="reason"
+                                                                             minOccurs="0"
+                                                                             maxOccurs="unbounded">
+                                                                            <xsd:complexType>
+                                                                                <xsd:sequence>
+                                                                                    <xsd:element name="text"
+                                                                                         minOccurs="0">
+                                                                                        <xsd:simpleType>
+                                                                                            <xsd:restriction
+                                                                                                 base="xsd:string">
+                                                                                                <xsd:maxLength
+                                                                                                     value="2000"/>
+                                                                                            </xsd:restriction>
+                                                                                        </xsd:simpleType>
+                                                                                    </xsd:element>
+                                                                                </xsd:sequence>
+                                                                                <xsd:attribute name="action"
+                                                                                     type="ouaf:listAction"/>
+                                                                            </xsd:complexType>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="node"
+                                                                             minOccurs="0">
+                                                                            <xsd:simpleType>
+                                                                                <xsd:restriction base="xsd:string">
+                                                                                    <xsd:maxLength value="100"/>
+                                                                                </xsd:restriction>
+                                                                            </xsd:simpleType>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="role"
+                                                                             minOccurs="0">
+                                                                            <xsd:simpleType>
+                                                                                <xsd:restriction base="xsd:string">
+                                                                                    <xsd:maxLength value="10"/>
+                                                                                </xsd:restriction>
+                                                                            </xsd:simpleType>
+                                                                        </xsd:element>
+                                                                        <xsd:element name="detail"
+                                                                             minOccurs="0">
+                                                                            <xsd:complexType>
+                                                                                <xsd:sequence>
+                                                                                    <xsd:element name="sqlMessage"
+                                                                                         minOccurs="0"
+                                                                                         maxOccurs="unbounded">
+                                                                                        <xsd:complexType>
+                                                                                            <xsd:sequence>
+                                                                                                <xsd:element
+                                                                                                     name="class"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:string">
+                                                                                                            <xsd:maxLength
+                                                                                                                 value="100"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                                <xsd:element
+                                                                                                     name="lineNumber"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:decimal">
+                                                                                                            <xsd:minExclusive
+                                                                                                                 value="-99999999999999"/>
+                                                                                                            <xsd:maxExclusive
+                                                                                                                 value="99999999999999"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                                <xsd:element
+                                                                                                     name="message"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:string">
+                                                                                                            <xsd:maxLength
+                                                                                                                 value="2000"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                                <xsd:element
+                                                                                                     name="number"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:decimal">
+                                                                                                            <xsd:minExclusive
+                                                                                                                 value="-99999999999999"/>
+                                                                                                            <xsd:maxExclusive
+                                                                                                                 value="99999999999999"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                                <xsd:element
+                                                                                                     name="source"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:string">
+                                                                                                            <xsd:maxLength
+                                                                                                                 value="100"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                                <xsd:element
+                                                                                                     name="state"
+                                                                                                     minOccurs="0">
+                                                                                                    <xsd:simpleType>
+                                                                                                        <xsd:restriction
+                                                                                                             base="xsd:string">
+                                                                                                            <xsd:maxLength
+                                                                                                                 value="6"/>
+                                                                                                        </xsd:restriction>
+                                                                                                    </xsd:simpleType>
+                                                                                                </xsd:element>
+                                                                                            </xsd:sequence>
+                                                                                            <xsd:attribute
+                                                                                                 name="action"
+                                                                                                 type="ouaf:listAction"/>
+                                                                                        </xsd:complexType>
+                                                                                    </xsd:element>
+                                                                                </xsd:sequence>
+                                                                            </xsd:complexType>
+                                                                        </xsd:element>
+                                                                    </xsd:sequence>
+                                                                </xsd:complexType>
+                                                            </xsd:element>
+                                                        </xsd:sequence>
+                                                    </xsd:complexType>
+                                                </xsd:element>
+                                            </xsd:sequence>
+                                        </xsd:complexType>
+                                    </xsd:element>
+                                </xsd:sequence>
+                            </xsd:complexType>
+                        </xsd:element>
+                    </xsd:sequence>
+                    <xsd:attribute name="dateTimeTagFormat" type="xsd:string" fixed="xsd:strict" use="required"/>
+                    <xsd:attribute name="transactionType">
+                        <xsd:simpleType>
+                            <xsd:restriction base="xsd:token">
+                                <xsd:enumeration value="ADD"/>
+                                <xsd:enumeration value="READ"/>
+                                <xsd:enumeration value="DEL"/>
+                                <xsd:enumeration value="UPD"/>
+                                <xsd:enumeration value="REPL"/>
+                            </xsd:restriction>
+                        </xsd:simpleType>
+                    </xsd:attribute>
+                </xsd:complexType>
+            </xsd:element>
+        </xsd:schema>
+    </wsdl:types>
+    <wsdl:message name="CYANPingResponseRequest">
+        <wsdl:part name="body" element="ns1:CYANPingResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CYANPingResponseResponse">
+        <wsdl:part name="body" element="ns1:CYANPingResponse"/>
+    </wsdl:message>
+    <wsdl:message name="CYANPingResponseFault">
+        <wsdl:part name="fault" element="ouaf:Fault"/>
+    </wsdl:message>
+    <wsdl:portType name="CYANPingResponsePortType">
+        <wsdl:operation name="CYANPingResponse">
+            <wsdl:input message="xai:CYANPingResponseRequest"/>
+            <wsdl:output message="xai:CYANPingResponseResponse"/>
+            <wsdl:fault name="fault" message="xai:CYANPingResponseFault"/>
+        </wsdl:operation>
+    </wsdl:portType>
+    <wsdl:binding name="CYANPingResponseSoapBinding" type="xai:CYANPingResponsePortType">
+        <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <wsdl:operation name="CYANPingResponse">
+            <soap:operation soapAction="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"/>
+            <wsdl:input>
+                <soap:body use="literal"/>
+            </wsdl:input>
+            <wsdl:output>
+                <soap:body use="literal"/>
+            </wsdl:output>
+            <wsdl:fault name="fault">
+                <soap:fault name="fault" use="literal"/>
+            </wsdl:fault>
+        </wsdl:operation>
+    </wsdl:binding>
+    <wsdl:service name="CYANPingResponseService">
+        <wsdl:documentation>CYANPingResponse version 2: CYAN- Ping Job Response</wsdl:documentation>
+        <wsdl:port name="CYANPingResponsePort" binding="xai:CYANPingResponseSoapBinding">
+            <soap:address location="http://example.com/CYANPingResponse"/>
+        </wsdl:port>
+    </wsdl:service>
+</wsdl:definitions>

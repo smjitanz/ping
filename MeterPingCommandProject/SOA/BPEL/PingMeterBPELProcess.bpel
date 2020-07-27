@@ -29,7 +29,9 @@
          xmlns:xdk="http://schemas.oracle.com/bpel/extension/xpath/function/xdk"
          xmlns:ids="http://xmlns.oracle.com/bpel/services/IdentityService/xpath"
          xmlns:ldap="http://schemas.oracle.com/xpath/extension/ldap"
-         xmlns:ns2="http://TargetNamespace.com/MeterPingRestReference_PingMeter_response">
+         xmlns:ns2="http://TargetNamespace.com/MeterPingRestReference_PingMeter_response"
+         xmlns:ns3="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+         xmlns:ns4="http://oracle.com/CYANPingResponse.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <import namespace="http://schemas.oracle.com/bpel/extension" location="../WSDLs/RuntimeFault.wsdl"
           importType="http://schemas.xmlsoap.org/wsdl/"/>
   <import ui:processWSDL="true" namespace="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/PingMeterBPELProcess" location="../WSDLs/PingMeterBPELProcess.wsdl" importType="http://schemas.xmlsoap.org/wsdl/"/>
@@ -48,6 +50,8 @@
     <partnerLink name="pingmeterbpelprocess_client" partnerLinkType="client:PingMeterBPELProcess" myRole="PingMeterBPELProcessProvider"/>
     <partnerLink name="MeterPingRestReference" partnerLinkType="ns1:MeterPingRestReference"
                  partnerRole="MeterPingRestReferenceProvider"/>
+    <partnerLink name="OUAFResponseSOAPReference" partnerLinkType="ns3:OUAFResponseSOAPReference"
+                 partnerRole="CYANPingResponsePortType"/>
   </partnerLinks>
 
   <!-- 
@@ -66,6 +70,10 @@
     <variable name="InvokeMeterPing_InputVariable" messageType="ns1:Rest_EmptyMessage"/>
     <variable name="InvokeMeterPing_OutputVariable" messageType="ns1:PingMeter_outputMessage"/>
     <variable name="ReplyError_OutputVariable" messageType="client:PingMeterBPELProcessResponseMessage"/>
+    <variable name="InvokeOUAFResponse_InputVariable" messageType="ns3:CYANPingResponseRequest"/>
+    <variable name="InvokeOUAFResponse_OutputVariable" messageType="ns3:CYANPingResponseResponse"/>
+    <variable name="InvokeFaultOUAFResponse_InputVariable" messageType="ns3:CYANPingResponseRequest"/>
+    <variable name="InvokeFaultOUAFResponse_OutputVariable" messageType="ns3:CYANPingResponseResponse"/>
   </variables>
   <faultHandlers>
     <catchAll>
@@ -76,8 +84,32 @@
             <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:result</to>
           </copy>
           <copy>
+            <from>$inputVariable.payload/client:input</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns4:deviceId</to>
+          </copy>
+          <copy>
+            <from>$inputVariable.payload/client:input</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:utilityDeviceID</to>
+          </copy>
+          <copy>
             <from>ora:getFlowId()</from>
             <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$ReplyError_OutputVariable.payload/client:flowId</to>
+          </copy>
+          <copy>
+            <from>ora:getFlowId()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:transactionID</to>
+          </copy>
+          <copy>
+            <from>ora:getFlowId()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:instanceID</to>
+          </copy>
+          <copy>
+            <from>"e"</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:fault/ns4:faultCode</to>
+          </copy>
+          <copy>
+            <from>ora:getFaultAsString()</from>
+            <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeFaultOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:fault/ns4:faultString</to>
           </copy>
         </assign>
         <reply name="ReplyError" partnerLink="pingmeterbpelprocess_client" variable="ReplyError_OutputVariable"
@@ -102,6 +134,14 @@
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$MeterPingUrl</to>
       </copy>
       <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns4:deviceId</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:utilityDeviceID</to>
+      </copy>
+      <copy>
         <from>"Successful"</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:result</to>
       </copy>
@@ -109,17 +149,35 @@
         <from>ora:getFlowId()</from>
         <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$outputVariable.payload/client:flowId</to>
       </copy>
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:transactionID</to>
+      </copy>
+      <copy>
+        <from>ora:getFlowId()</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:instanceID</to>
+      </copy>
+      <copy>
+        <from>$inputVariable.payload/client:input</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:pingResults/ns4:deviceName</to>
+      </copy>
+      <copy>
+        <from>$InvokeMeterPing_OutputVariable.reply/ns2:state</from>
+        <to expressionLanguage="urn:oasis:names:tc:wsbpel:2.0:sublang:xpath1.0">$InvokeOUAFResponse_InputVariable.body/ns4:responseDetail/ns4:responseEnvelope/ns4:pingResults/ns4:state</to>
+      </copy>
     </assign>
     <reply name="replyOutput" partnerLink="pingmeterbpelprocess_client" portType="client:PingMeterBPELProcess"
            operation="process" variable="outputVariable"/>
-    <invoke name="InvokeMeterPing" partnerLink="MeterPingRestReference"
-            portType="ns1:MeterPingRestReference_ptt" operation="PingMeter"
-            inputVariable="InvokeMeterPing_InputVariable" outputVariable="InvokeMeterPing_OutputVariable"
-            bpelx:invokeAsDetail="no">
+    <invoke name="InvokeMeterPing" partnerLink="MeterPingRestReference" portType="ns1:MeterPingRestReference_ptt"
+            operation="PingMeter" inputVariable="InvokeMeterPing_InputVariable"
+            outputVariable="InvokeMeterPing_OutputVariable" bpelx:invokeAsDetail="no">
       <bpelx:toProperties>
         <bpelx:toProperty name="rest.binding.requestURI" variable="MeterPingUrl"/>
       </bpelx:toProperties>
     </invoke>
+    <invoke name="InvokeOUAFResponse" bpelx:invokeAsDetail="no" partnerLink="OUAFResponseSOAPReference"
+            portType="ns3:CYANPingResponsePortType" operation="CYANPingResponse"
+            inputVariable="InvokeOUAFResponse_InputVariable" outputVariable="InvokeOUAFResponse_OutputVariable"/>
     <!-- Generate reply to synchronous request -->
   </sequence>
 </process>

@@ -15,6 +15,10 @@
           location="WSDLs/PingMeterBPELProcess.wsdl" importType="wsdl"/>
   <import namespace="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/MeterPingRestReference"
           location="WSDLs/MeterPingRestReference.wsdl" importType="wsdl"/>
+  <import namespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+          location="WSDLs/CYANPingResponse_1.wsdl" importType="wsdl"/>
+  <import namespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+          location="WSDLs/CYANPingResponse_1Wrapper.wsdl" importType="wsdl"/>
   <service name="pingmeterbpelprocess_client_ep" ui:wsdlLocation="WSDLs/PingMeterBPELProcess.wsdl">
     <interface.wsdl interface="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/PingMeterBPELProcess#wsdl.interface(PingMeterBPELProcess)"/>
     <binding.ws port="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/PingMeterBPELProcess#wsdl.endpoint(pingmeterbpelprocess_client_ep/PingMeterBPELProcess_pt)"/>
@@ -30,6 +34,9 @@
       <reference name="MeterPingRestReference" ui:wsdlLocation="WSDLs/MeterPingRestReference.wsdl">
         <interface.wsdl interface="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/MeterPingRestReference#wsdl.interface(MeterPingRestReference_ptt)"/>
       </reference>
+      <reference name="OUAFResponseSOAPReference" ui:wsdlLocation="WSDLs/CYANPingResponse_1Wrapper.wsdl">
+        <interface.wsdl interface="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse#wsdl.interface(CYANPingResponsePortType)"/>
+      </reference>
     </componentType>
     <property name="bpel.config.transaction" type="xs:string" many="false">required</property>
     <property name="bpel.preference.MeterPingUrl">https://mea-itanz-itg.dev.cyanconnode.com/ws/meterPing/</property>
@@ -38,6 +45,13 @@
     <interface.wsdl interface="http://xmlns.oracle.com/MeterPingCommandApplication/MeterPingCommandProject/MeterPingRestReference#wsdl.interface(MeterPingRestReference_ptt)"/>
     <binding.rest config="WADLs/MeterPingRestReference.wadl" location="https://mea-itanz-itg.dev.cyanconnode.com"/>
   </reference>
+  <reference name="OUAFResponseSOAPReference" ui:wsdlLocation="WSDLs/CYANPingResponse_1.wsdl">
+    <interface.wsdl interface="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse#wsdl.interface(CYANPingResponsePortType)"/>
+    <binding.ws port="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse#wsdl.endpoint(CYANPingResponseService/CYANPingResponsePort)"
+                location="WSDLs/CYANPingResponse_1.wsdl" soapVersion="1.1">
+      <property name="weblogic.wsee.wsat.transaction.flowOption" type="xs:string" many="false">WSDLDriven</property>
+    </binding.ws>
+  </reference>
   <wire>
     <source.uri>pingmeterbpelprocess_client_ep</source.uri>
     <target.uri>PingMeterBPELProcess/pingmeterbpelprocess_client</target.uri>
@@ -45,5 +59,9 @@
   <wire>
     <source.uri>PingMeterBPELProcess/MeterPingRestReference</source.uri>
     <target.uri>MeterPingRestReference</target.uri>
+  </wire>
+  <wire>
+    <source.uri>PingMeterBPELProcess/OUAFResponseSOAPReference</source.uri>
+    <target.uri>OUAFResponseSOAPReference</target.uri>
   </wire>
 </composite>

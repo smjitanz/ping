@@ -1,0 +1,15 @@
+<?xml version= '1.0' encoding= 'UTF-8' ?>
+<wsdl:definitions
+     name="CYANPingResponse"
+     targetNamespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+     xmlns:bpws="http://docs.oasis-open.org/wsbpel/2.0/process/executable"
+     xmlns:plnk="http://docs.oasis-open.org/wsbpel/2.0/plnktype"
+     xmlns:xai="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse"
+     xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
+    >
+    <plnk:partnerLinkType name="OUAFResponseSOAPReference">
+        <plnk:role name="CYANPingResponsePortType" portType="xai:CYANPingResponsePortType"/>
+    </plnk:partnerLinkType>
+    <wsdl:import namespace="http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse" location="CYANPingResponse_1.wsdl"/>
+</wsdl:definitions>

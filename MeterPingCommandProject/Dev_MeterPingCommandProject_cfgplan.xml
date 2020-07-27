@@ -47,6 +47,20 @@
       <reference name="MeterPingRestReference">
          <binding type="rest"/>
       </reference>
+      <reference name="OUAFResponseSOAPReference">
+         <!--Add search and replace rules for the binding properties-->
+         <binding type="ws">
+            <attribute name="port">
+               <replace>http://ouaf.oracle.com/spl/XAIXapp/xaiserver/CYANPingResponse#wsdl.endpoint(CYANPingResponseService/CYANPingResponsePort)</replace>
+            </attribute>
+            <attribute name="location">
+               <replace>WSDLs/CYANPingResponse_1.wsdl</replace>
+            </attribute>
+            <property name="weblogic.wsee.wsat.transaction.flowOption">
+               <replace>WSDLDriven</replace>
+            </property>
+         </binding>
+      </reference>
    </composite>
    <!--To configure monitor.config: 
 	<property name="enabled"><replace>true</replace></property>
@@ -66,7 +80,7 @@
 		<replace>8889</replace>
 	<searchReplace>
 	-->
-   <wsdlAndSchema name="Schemas/MeterPingResponse.xsd|Schemas/PingMeterBPELProcess.xsd|WSDLs/MeterPingRestReference.wsdl|WSDLs/PingMeterBPELProcess.wsdl|WSDLs/RuntimeFault.wsdl|wsm-assembly.xml">
+   <wsdlAndSchema name="Schemas/MeterPingResponse.xsd|Schemas/PingMeterBPELProcess.xsd|WSDLs/CYANPingResponse_1.wsdl|WSDLs/CYANPingResponse_1Wrapper.wsdl|WSDLs/MeterPingRestReference.wsdl|WSDLs/PingMeterBPELProcess.wsdl|WSDLs/RuntimeFault.wsdl|wsm-assembly.xml">
       <searchReplace>
          <search/>
          <replace/>
